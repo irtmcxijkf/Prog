@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    .target {
+      float: left;
+    }
+
+    .cam-wrapper {
+      font-family: arial;
+      display: inline-block;
+    }
+
+    .cam {
+      border: none;
+      margin-left: 1.35rem;
+    }
+
+    .title {
+      padding-left: 1rem;
+    }
+    .hide {
+      display: none;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="target">
+    <template class="temp-cam">
+      <div class="cam-wrapper hide" onclick="visit(this)">
+        <img src="" class="cam">
+        <div class="title"></div>
+      </div>
+    </template>
+  </div>
+
+  <script>
+    const links = [
+      'https://chaturbate.com/bunny_marthy/',
+      'https://chaturbate.com/magnificent_angel/',
+      'https://chaturbate.com/jenie_fire',
+      'https://chaturbate.com/emilylittle',
+      'https://chaturbate.com/_timeless_paradox/',
+      'https://chaturbate.com/misstics_/',
+      'https://chaturbate.com/hayliemilf/',
+      'https://chaturbate.com/anarich/',
+      'https://chaturbate.com/karah_mel/',
+      'https://chaturbate.com/eliswanxxx/',
+      'https://chaturbate.com/fazeyj/',
+      'https://chaturbate.com/malikabb/',
+      'https://chaturbate.com/amberalena/',
+      'https://chaturbate.com/blondie_muller/',
+      //
+      'https://chaturbate.com/anna_love1/',
+      'https://chaturbate.com/magyc_bri/',
+      'https://chaturbate.com/sas4a/',
+      'https://chaturbate.com/_chatur_babe',
+      'https://chaturbate.com/chisamisa/',
+      'https://chaturbate.com/darlinechapel',
+      'https://chaturbate.com/liaglamour',
+      'https://chaturbate.com/miladystarlight/'
+    ]
+    const divTarget = document.querySelector('.target')
+    const tempCam = document.querySelector('.temp-cam')
+
+    const visit = function (element) {
+      const userName = element.querySelector('.cam').src.split('room=')[1].split('&f=')[0]
+      const camLink = 'https://chaturbate.com/' + userName
+      window.open(camLink)
+    }
+
+    const cams = []
+    links.forEach(itemLink => {
+      const userName = itemLink.split('/')[3]
+      const urlStream = 'https://jpeg.live.mmcdn.com/stream?room=' + userName + '&f='
+
+      const divCam = tempCam.content.cloneNode(true).children[0]
+      const imgCam = divCam.querySelector('.cam')
+      const divTitle = divCam.querySelector('.title')
+      imgCam.src = urlStream
+      imgCam.width = 854 / 2
+      imgCam.height = 480 / 2
+      divTitle.innerText = userName
+      imgCam.title = userName
+
+      divTarget.append(divCam)
+      cams.push({
+        element: divCam,
+        src: urlStream
+      })
+    })
+
+    function render() {
+      const ranNum = Math.random()
+      cams.forEach(itemCam => {
+        let img = itemCam.element.querySelector('.cam')
+
+        fetch(img.src + ranNum).then(res => {
+          if (res.status == 200) {
+            img.src = img.src + ranNum
+            itemCam.element.classList.remove('hide')
+          } else {
+            itemCam.element.classList.add('hide')
+          }
+        }).catch(err => err)
+      })
+    }
+
+    setInterval(render, 1000)
+  </script>
+</body>
+
+</html>

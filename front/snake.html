@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+  <meta http-equiv="Pragma" content="no-cache" />
+  <meta http-equiv="Expires" content="0" />
+  <title>Змија</title>
+  <style>
+    body {
+      font-family: 'Courier New', Courier, monospace;
+      text-align: center;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>Змија</h1>
+  <canvas id="board"></canvas>
+  <script>
+    //board
+    const blockSize = 25;
+    const rows = 20;
+    const cols = 20;
+
+
+    //canvas
+    let board;
+    let context;
+
+
+    //snake head
+    let snakeX;
+    let snakeY;
+
+
+    //snake body
+    let snakeBody = []
+
+
+    //food
+    let foodX;
+    let foodY;
+
+
+    //snake velocity
+    velocityX = 0;
+    velocityY = 0;
+
+
+    //setting up
+    window.onload = function () {
+      board = document.getElementById('board');
+      board.height = rows * blockSize;
+      board.width = cols * blockSize;
+      context = board.getContext('2d'); //used for drawing the board
+      document.addEventListener('keyup', changeDirection)
+      placeFood();
+      placeSnake();
+      update(); //initial drawing
+      setInterval(update, 100)
+    }
+
+
+    //drawing and updating positions
+    function update() {
+      //draw board
+      context.fillStyle = 'black';
+      context.fillRect(0, 0, board.width, board.height)
+
+      //draw food
+      context.fillStyle = 'red';
+      context.fillRect(foodX, foodY, blockSize, blockSize)
+
+      //draw snakehead
+      context.fillStyle = 'lime';
+      snakeX += velocityX * blockSize;
+      snakeY += velocityY * blockSize;
+      context.fillRect(snakeX, snakeY, blockSize, blockSize)
+
+      //when food is eaten, grow the snake and pop another food
+      if (snakeX == foodX && snakeY == foodY) {
+        snakeBody.push([foodX, foodY])
+        placeFood();
+      }
+
+      //draw snake body
+      snakeBody.forEach(function (elt) {
+        context.fillStyle = 'lime';
+        context.fillRect(elt[0], elt[1], blockSize, blockSize)
+      })
+
+      //rest of body follows by shifting one square
+      for (let i = snakeBody.length - 1; i > 0; i--) {
+        snakeBody[i] = snakeBody[i - 1]
+      }
+
+      //head neighbour follows the head
+      if (snakeBody.length) {
+        snakeBody[0] = [snakeX, snakeY]
+      }
+
+    }
+
+
+    //random initial position of the food
+    function placeFood() {
+      foodX = Math.floor(Math.random() * cols) * blockSize;
+      foodY = Math.floor(Math.random() * cols) * blockSize;
+    }
+
+
+    //random initial position of the snake head
+    function placeSnake() {
+      snakeX = Math.floor(Math.random() * cols) * blockSize;
+      snakeY = Math.floor(Math.random() * cols) * blockSize;
+    }
+
+    
+    //changing direction of the snake head based on keypress
+    function changeDirection(event) {
+      if (event.code == 'ArrowUp' && velocityY != 1) {
+        velocityX = 0;
+        velocityY = -1;
+      } else if (event.code == 'ArrowDown' && velocityY != -1) {
+        velocityX = 0;
+        velocityY = 1;
+      } else if (event.code == 'ArrowLeft' && velocityX != 1) {
+        velocityX = -1;
+        velocityY = 0;
+      } else if (event.code == 'ArrowRight' && velocityX != -1) {
+        velocityX = 1;
+        velocityY = 0;
+      }
+    }
+  </script>
+</body>
+
+</html>

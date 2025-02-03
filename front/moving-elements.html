@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+
+</head>
+
+<body>
+  <div class="source">Source div:
+    <h1 class="toMove">h1 to be moved or cloned</h1>
+    <h2 class="toMove">h2 to be moved or cloned</h2>
+    <h3 class="toMove">h3 to be moved or cloned</h3>
+  </div>
+  <div class="target">Target div:</div>
+  <script>
+    //MOVE SINGLE ELEMENT - SINGLE NODE
+
+    // const element = document.querySelector('.toMove')
+    // console.log(element)
+    // target = document.querySelector('.target')
+    // target.appendChild(element)
+
+
+
+    //MOVE MULTIPLE ELEMENTS - NODE LIST OR ARRAY
+
+    // let elements = document.querySelectorAll('.toMove')
+    // const toArr = Array.from(elements)
+    // // const toArr2 = [].slice.call(elements)
+    // console.log(toArr[0].parentElement)
+    // const target = document.querySelector('.target')
+    // for (var i = 0; i < elements.length; i++) {
+    //     target.appendChild(toArr[i])
+    // }
+    // console.log(toArr[0].parentElement)
+
+
+
+    //CLONE MUPTIPLE ELEMENTS - NODE LIST
+
+    // const elements = document.querySelectorAll('.toMove')
+    // const target = document.querySelector('.target')
+    // const toArr = Array.from(elements)
+    //     .map(node => node.cloneNode(true))
+    // console.log(toArr[0].parentElement)
+    // for (let i = 0; i < toArr.length; i++) {
+    //     target.appendChild(toArr[i])
+    // }
+    // console.log(toArr[0].parentElement)
+    //different iterator//////////
+    // for (let element of toArr) {
+    //     target.appendChild(element)
+    // }
+
+
+
+    //CLONE MULTIPLE ELEMENTS - CONCAT STRING TO OUTERHTML
+
+    const elements = document.querySelectorAll('.toMove')
+    const target = document.querySelector('.target')
+    let htmlToAdd = ''
+    for (var i = 0; i < elements.length; i++) {
+      console.log(elements[i].outerHTML)
+      htmlToAdd += elements[i].outerHTML
+    }
+    console.log(htmlToAdd)
+    target.outerHTML += htmlToAdd;
+
+
+  </script>
+</body>
+
+</html>

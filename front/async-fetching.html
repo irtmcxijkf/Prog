@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Document</title>
+</head>
+
+<body>
+  <div class="target1"></div>
+  <img src="" alt="" class="target2">
+  <script>
+    const target1 = document.querySelector('.target1')
+    const target2 = document.querySelector('.target2')
+    const url1 = 'https://api.coindesk.com/v1/bpi/currentprice.json'
+    const url2 = 'https://dog.ceo/api/breeds/image/random'
+    const url3 = 'https://mojtermin.mk/api/pp/resources/891281521/slots_availability'
+
+    // fetch('https://api.coindesk.com/v1/bpi/currentprice.json')
+    //     .then(res => res.json())
+    //     .then(data => { console.log(data) })
+
+    async function fetching() {
+      const response = await fetch(url1)
+      const obj = await response.json()
+      return obj
+    }
+
+    async function displaying() {
+      const data = await fetching()
+      console.log(data);
+      target1.textContent = data.disclaimer
+    }
+
+    displaying();
+
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <h1 class="status1"></h1>
+  <h1 class="status2"></h1>
+  <script>
+    let H1_STATUS1 = document.querySelector('.status1')
+    let H1_STATUS2 = document.querySelector('.status2')
+
+
+    function randomMinutes() {
+      let minutes = Math.floor(Math.random() * 12 + 1)
+      let toMillis = 1000 * 60 * minutes
+      return toMillis;
+    }
+
+
+    function randomSeconds() {
+      let seconds = Math.floor(Math.random() * 5 + 1)
+      let toMillis = 1000 * seconds
+      return toMillis;
+    }
+
+
+    function randomRepeaterSeconds(name, target) {
+      async function doRepeat() {
+        let seconds = randomSeconds()
+        await fetch('https://mojpregled.onrender.com')
+          .then(res => target.innerHTML = `${name} status is ${res.status}, next call in ${seconds / 1000} seconds`)
+          .catch(err => err)
+        setTimeout(doRepeat, seconds)
+      }
+      doRepeat()
+    }
+
+
+    function randomRepeaterMinutes(name, target) {
+      async function doRepeat() {
+        let minutes = randomMinutes()
+        await fetch('https://mojpregled.onrender.com')
+          .then(res => target.innerHTML = `${name} status is ${res.status}, next call in ${minutes / 60000} minutes`)
+          .catch(err => err)
+        setTimeout(doRepeat, minutes)
+      }
+      doRepeat()
+    }
+
+
+    // randomRepeaterSeconds('A', H1_STATUS1)
+    // randomRepeaterSeconds('B', H1_STATUS2)
+
+    randomRepeaterMinutes('A', H1_STATUS1)
+    randomRepeaterMinutes('B', H1_STATUS2)
+  </script>
+</body>
+
+</html>
